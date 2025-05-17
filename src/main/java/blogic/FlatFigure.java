@@ -40,18 +40,29 @@ public class FlatFigure {
     }
     
     public double area() {
-        double s=0;
-        if (d==0) {
-            if (al==90) s=0.5*a*b;
-            else {
-                double p=(a+b+c)/2;
-                s=Math.sqrt(p*(p-a)*(p-b)*(p-c));
-            }
+        if (d==0 && isTriangle(a,b,c)) {
+            if (al==90) return 0.5*a*b;
+            else return triangleArea(a,b,c);
         }
-        else if (al==90 && bet==90 && a==c && b==d) { s=a*b; }
-             else { s=a*b*Math.sin(al*Math.PI/180); }
-            
-        return s;
+        else if (al==90 && bet==90 && a==c && b==d) { return a*b; }
+             else { return parallelArea(a,b,al); }
+    }
+
+    private double triangleArea(double a, double b, double c) {
+        double p = (a + b + c) / 2;
+        return Math.sqrt(p * (p - a) * (p - b) * (p - c));
+    }
+
+    private double parallelArea(double a, double b, int al) {
+        return a * b * Math.sin(al*Math.PI/180);
+    }
+
+    public boolean isTriangle(double a, double b, double c) {
+        return (a + b > c && a + c > b && b + c > a);
+    }
+
+    public boolean isParallelogram(int al, int bet) {
+        return (al + bet == 180);
     }
 
 }
